@@ -16,6 +16,7 @@ kind: Deployment
 metadata:
   name: webservice-deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: webservice
@@ -29,3 +30,10 @@ spec:
         image: stephanebrillant/inf36307:rest-api
         ports:
         - containerPort: 8080
+        resources:
+          requests:  # Garantit min, évite starvation
+            cpu: "4"  # 4 CPUs (4000m) ou 80% si moins
+            memory: 8Gi  # 8192Mi
+          limits:  # Max dur, évite pod monopoliser node
+            cpu: "6"  # 6 CPUs
+            memory: 12Gi  # 12288Mi
